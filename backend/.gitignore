@@ -1,0 +1,5 @@
+# Environment varibles
+.env
+
+# Node Module
+node_modules/
