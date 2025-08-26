@@ -3,6 +3,7 @@ require("dotenv").config();
 
 // Intilizaing the Express
 const express = require("express");
+const cookieParser = require("cookie-parser");
 
 // Mongoose Connection
 const Connect = require("./src/connection");
@@ -14,9 +15,10 @@ Connect();
 const app = express();
 
 const { UserRouter } = require("./src/routes/User");
-const errorHandle = require("./src/middleWare/userErrorHandles")
+const errorHandle = require("./src/middleWare/userErrorHandles");
 
 app.use(express.json());
+app.use(cookieParser());
 
 //Routes
 app.use("/api/user/", UserRouter);

@@ -2,30 +2,30 @@ const Express = require("express");
 
 const UserRouter = Express.Router();
 
-const { userRegister, userLogin, userProfile } = require("../controller/User");
+const {
+  userRegister,
+  userLogin,
+  userProfile,
+  refreshTokenHandler,
+  userLogout,
+} = require("../controller/User");
 
 const {
   userRegisterMiddleWare,
   userLoginMiddleWare,
   userProfileMiddleWare,
-  userRegisterMiddleWareEmail,
 } = require("../middleWare/userMiddleWare");
-
 
 // Routes
 // # User Register
-UserRouter.route("/register").post(
-  userRegisterMiddleWareEmail,
-  userRegisterMiddleWare,
-  userRegister
-);
+UserRouter.route("/register").post(userRegisterMiddleWare, userRegister);
 
 // # User Login
-UserRouter.route("/login").post(
-  userRegisterMiddleWareEmail,
-  userLoginMiddleWare,
-  userLogin
-);
+UserRouter.route("/login").post(userLoginMiddleWare, userLogin);
+
+UserRouter.route("/refreshToken").post(refreshTokenHandler);
+
+UserRouter.route("/logout").post(userLogout);
 
 // # User Profile
 UserRouter.route("/Profile").get(userProfileMiddleWare, userProfile);

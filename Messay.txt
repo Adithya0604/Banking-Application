@@ -1,0 +1,21 @@
+// async function userRegisterMiddleWareEmail(request, response, next) {
+//   const { Email } = request.body;
+
+//   try {
+//     const list = ["gmail", "hotmail", "yahoo", "email"];
+//     const Server = "Please enter your email first.";
+
+//     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+//     if (!Email || !pattern.test(Email)) {
+//       return response.status(ErrorCodes.Bad_Request).json({
+//         success: false,
+//         EnterFirst: Server,
+//       });
+//     }
+
+//     next();
+//   } catch (error) {
+//     return next(error);
+//   }
+// }

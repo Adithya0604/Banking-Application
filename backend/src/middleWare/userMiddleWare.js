@@ -3,46 +3,66 @@ const { userConnect } = require("../model/User");
 const JWT = require("jsonwebtoken");
 const ErrorCodes = require("./ErrorCodes");
 
-async function userRegisterMiddleWareEmail(request, response, next) {
-  const { Email } = request.body;
-
-  try {
-    const list = ["gmail", "hotmail", "yahoo", "email"];
-    const Server = "Please enter your email first.";
-
-    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!Email || !pattern.test(Email)) {
-      return response.status(ErrorCodes.Bad_Request).json({
-        success: false,
-        EnterFirst: Server,
-      });
-    }
-
-    next();
-  } catch (error) {
-    return next(error);
-  }
-}
-
 async function userRegisterMiddleWare(request, response, next) {
-  const { Name, Email, Password } = request.body;
+  const {
+    FirstName,
+    Email,
+    Password,
+    PhoneNumber,
+    DOB,
+    Address,
+    State,
+    Country,
+  } = request.body;
 
   try {
     const MissingFields = "Please ensure all required fields are filled.";
 
-    if (!Password || !Name) {
+    if (
+      !FirstName ||
+      !Email ||
+      !Password ||
+      !PhoneNumber ||
+      !DOB ||
+      !Address ||
+      !State
+    ) {
       return response.status(ErrorCodes.Bad_Request).json({
         success: false,
         MissingFields: MissingFields,
       });
     }
-    const ExistedUser = await userConnect.findOne({ Email });
 
-    if (ExistedUser) {
+    // Simple email regex validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(Email)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid email." });
+    }
+
+    // Basic phone number validation (digits only here; you can extend)
+    const phonePattern = /^\d{7,15}$/;
+    if (!phonePattern.test(PhoneNumber)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid phone number." });
+    }
+
+    const ExistedUserEmail = await userConnect.findOne({ Email });
+
+    if (ExistedUserEmail) {
       return response.status(ErrorCodes.Key_Duplicte).json({
         success: false,
-        ExistedUser: "You are already registered.",
+        ExistedUser: "Email is already registered.",
+      });
+    }
+    const ExistedUserPhone = await userConnect.findOne({ PhoneNumber });
+
+    if (ExistedUserPhone) {
+      return response.status(ErrorCodes.Key_Duplicte).json({
+        success: false,
+        ExistedUser: "Phone Number is  already registered.",
       });
     }
 
@@ -56,7 +76,7 @@ async function userLoginMiddleWare(request, response, next) {
   const { Email, Password } = request.body;
 
   try {
-    const MissingFields = `Please make sure all requirmed fileds are entered`;
+    const MissingFields = "Please make sure all requirmed fileds are entered";
 
     if (!Password || !Email) {
       return response.status(ErrorCodes.Bad_Request).json({
@@ -91,7 +111,6 @@ async function userProfileMiddleWare(request, response, next) {
 
 module.exports = {
   userRegisterMiddleWare,
-  userRegisterMiddleWareEmail,
   userLoginMiddleWare,
   userProfileMiddleWare,
 };
