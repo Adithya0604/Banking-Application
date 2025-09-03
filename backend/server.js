@@ -15,6 +15,8 @@ Connect();
 const app = express();
 
 const { UserRouter } = require("./src/routes/User");
+const { UserAccountRouter } = require("./src/routes/Account");
+const { AccountTranactionRouter } = require("./src/routes/Transaction");
 const errorHandle = require("./src/middleWare/userErrorHandles");
 
 app.use(express.json());
@@ -22,6 +24,8 @@ app.use(cookieParser());
 
 //Routes
 app.use("/api/user/", UserRouter);
+app.use("/api/user/", UserAccountRouter);
+app.use("/api/user/", AccountTranactionRouter);
 
 app.use(errorHandle);
 

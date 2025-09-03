@@ -1,0 +1,56 @@
+sharmaadithya@192 ~ % mongosh
+
+Current Mongosh Log ID:	68b81a2ed6d47052f159610c
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.6
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+sharmaadithya@192 ~ % mongod --dbpath ~/mongodb-data --replSet rs0
+
+
+Last login: Tue Sep  2 15:24:24 on ttys003
+sharmaadithya@Sharmas-MacBook-Air ~ % mongosh
+
+Current Mongosh Log ID:	68b81a85522c04c8e2cac573
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.6
+Using MongoDB:		8.0.12
+Using Mongosh:		2.5.6
+mongosh 2.5.7 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-09-03T16:07:10.636+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+   2025-09-03T16:07:10.636+05:30: This server is bound to localhost. Remote systems will be unable to connect to this server. Start the server with --bind_ip <address> to specify which IP addresses it should serve responses from, or with --bind_ip_all to bind to all interfaces. If this behavior is desired, start the server with --bind_ip 127.0.0.1 to disable this warning
+   2025-09-03T16:07:10.636+05:30: Soft rlimits for open file descriptors too low
+------
+
+test> rs.initiate()
+| 
+{
+  info2: 'no configuration specified. Using a default configuration for the set',
+  me: 'localhost:27017',
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1756895883, i: 1 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1756895883, i: 1 })
+}
+rs0 [direct: secondary] test> show collections
+
+rs0 [direct: primary] test> db
+| 
+test
+rs0 [direct: primary] test> use BankingDB
+| 
+switched to db BankingDB
+rs0 [direct: primary] BankingDB> show collections
+users
+usersAccounts
+usersTransactions
+rs0 [direct: primary] BankingDB> db.usersAccounts.find()
+
+rs0 [direct: primary] BankingDB> db.users.find()

@@ -12,6 +12,7 @@ async function userRegister(request, response) {
     Email,
     Password,
     PhoneNumber,
+    isPhoneVerified,
     DOB,
     Address,
     State,
@@ -27,6 +28,7 @@ async function userRegister(request, response) {
       Email,
       Password: CyrptedPassword,
       PhoneNumber,
+      isPhoneVerified,
       DOB,
       Address,
       State,
@@ -39,6 +41,7 @@ async function userRegister(request, response) {
       lastName: user.LastName,
       email: user.Email,
       phoneNumber: user.PhoneNumber,
+      isphoneverified: user.isPhoneVerified,
       dob: user.DOB,
       address: user.Address,
       state: user.State,
@@ -99,7 +102,7 @@ async function userLogin(request, response) {
         id: ExistedUser._id.toString(),
       },
       process.env.ACCESS_SECRET_TOKEN,
-      { expiresIn: "5m" }
+      { expiresIn: "50m" }
     );
 
     const refreshToken = JWT.sign(

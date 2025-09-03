@@ -1,4 +1,3 @@
-const { decrypt } = require("dotenv");
 const { userConnect } = require("../model/User");
 const JWT = require("jsonwebtoken");
 const ErrorCodes = require("./ErrorCodes");
@@ -6,47 +5,91 @@ const ErrorCodes = require("./ErrorCodes");
 async function userRegisterMiddleWare(request, response, next) {
   const {
     FirstName,
+    LastName,
     Email,
     Password,
     PhoneNumber,
+    isPhoneVerified,
     DOB,
     Address,
     State,
+    PostalCode,
     Country,
   } = request.body;
 
   try {
-    const MissingFields = "Please ensure all required fields are filled.";
+    function ValidateMissingFields(requiredFields, data) {
+      for (let field of requiredFields) {
+        if (!(field in data)) {
+          console.log("❌ Missing field:", field);
+          return `Field ${field} is Missing`;
+        } else if (
+          data[field] === null ||
+          data[field] === undefined ||
+          (typeof data[field] === "string" && data[field].trim() === "")
+        ) {
+          console.log("❌ Empty data for:", field);
+          return `Data of ${field} is Missing.`;
+        }
+      }
+      return null;
+    }
 
-    if (
-      !FirstName ||
-      !Email ||
-      !Password ||
-      !PhoneNumber ||
-      !DOB ||
-      !Address ||
-      !State
-    ) {
+    const MissingFields = [
+      "FirstName",
+      "LastName",
+      "Email",
+      "Password",
+      "PhoneNumber",
+      "DOB",
+      "Address",
+      "State",
+      "PostalCode",
+      "Country",
+    ];
+
+    const AllFields = ValidateMissingFields(MissingFields, request.body);
+
+    console.log("👉 Validation result:", AllFields);
+
+    if (AllFields) {
       return response.status(ErrorCodes.Bad_Request).json({
         success: false,
-        MissingFields: MissingFields,
+        MissingFields: AllFields,
       });
     }
 
     // Simple email regex validation
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(Email)) {
-      return res
+      return response
         .status(400)
-        .json({ success: false, message: "Invalid email." });
+        .json({ success: false, message: `Invalid email.` });
     }
 
     // Basic phone number validation (digits only here; you can extend)
     const phonePattern = /^\d{7,15}$/;
     if (!phonePattern.test(PhoneNumber)) {
-      return res
+      return response
         .status(400)
         .json({ success: false, message: "Invalid phone number." });
+    }
+
+    const dobDate = new Date(DOB);
+    if (isNaN(dobDate.getTime())) {
+      return response.status(400).json({
+        success: false,
+        message: "Invalid date format for DOB. Use YYYY-MM-DD format",
+      });
+    }
+
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordPattern.test(Password)) {
+      return response.status(400).json({
+        success: false,
+        message:
+          "Password must be at least 8 characters and contain letters and numbers",
+      });
     }
 
     const ExistedUserEmail = await userConnect.findOne({ Email });
@@ -76,7 +119,7 @@ async function userLoginMiddleWare(request, response, next) {
   const { Email, Password } = request.body;
 
   try {
-    const MissingFields = "Please make sure all requirmed fileds are entered";
+    const MissingFields = "Please make sure all required fileds are entered";
 
     if (!Password || !Email) {
       return response.status(ErrorCodes.Bad_Request).json({
