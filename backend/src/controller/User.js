@@ -69,7 +69,9 @@ async function userRegister(request, response) {
 }
 
 async function userLogin(request, response) {
-  const { Email, Password } = request.body;
+  const { email, password } = request.body;
+  let Email = email;
+  let Password = password;
 
   try {
     const ExistedUser = await userConnect

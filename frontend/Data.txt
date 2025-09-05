@@ -1,0 +1,2 @@
+# dependencies
+npm install react-router-dom @reduxjs/toolkit react-redux @tanstack/react-query yup

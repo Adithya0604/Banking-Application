@@ -83,7 +83,8 @@ async function userRegisterMiddleWare(request, response, next) {
       });
     }
 
-    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordPattern =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordPattern.test(Password)) {
       return response.status(400).json({
         success: false,
@@ -116,7 +117,12 @@ async function userRegisterMiddleWare(request, response, next) {
 }
 
 async function userLoginMiddleWare(request, response, next) {
-  const { Email, Password } = request.body;
+  const { email, password } = request.body;
+  let Email = email;
+  let Password = password;
+  console.log("preethi sharma");
+
+  console.log(request.body);
 
   try {
     const MissingFields = "Please make sure all required fileds are entered";

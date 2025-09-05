@@ -1,5 +1,6 @@
 // DotEnv Configuration Setting
 require("dotenv").config();
+const cors = require("cors");
 
 // Intilizaing the Express
 const express = require("express");
@@ -18,6 +19,14 @@ const { UserRouter } = require("./src/routes/User");
 const { UserAccountRouter } = require("./src/routes/Account");
 const { AccountTranactionRouter } = require("./src/routes/Transaction");
 const errorHandle = require("./src/middleWare/userErrorHandles");
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // your frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"], // allowed methods
+    credentials: true, // if you want to allow cookies/auth headers
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
