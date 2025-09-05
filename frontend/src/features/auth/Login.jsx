@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { userLogin } from "./authApi";
+import setAccessToken from "../../utlis/fetchWithAuth";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -27,7 +30,9 @@ export default function Login() {
     const response = await userLogin(formData);
 
     if (response.status === 200) {
+      setAccessToken(response.accessToken)
       alert("Login Successful!");
+      navigate("/dashboard");
     } else {
       setErrors({
         api: response.MissingFeilds || response.message || response.ExistedUser,

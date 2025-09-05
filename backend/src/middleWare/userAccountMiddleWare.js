@@ -64,8 +64,8 @@ async function userAccountMiddleWare(request, response, next) {
 
     const existingAccount = await userAccountModel.findOne({ accountNumber });
     if (existingAccount) {
-      return response.status(ErrorCodes.Bad_Request).json({
-        success: false,
+      return response.status(ErrorCodes.Key_Duplicte).json({
+        success: true,
         message: "Account Already Exist",
       });
     }

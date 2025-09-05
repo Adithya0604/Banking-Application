@@ -67,7 +67,7 @@ async function getUserAccounts(request, response) {
 
     const accounts = await userAccountModel
       .find({ userId: request.user.id })
-      .select("accountNumber accountType userId ifscCode balance currency accountStatus");
+      .select("accountNumber accountType userId ifscCode balance currency accountStatus branch lastTransactionDate");
 
     return response.status(200).json({ success: true, accounts });
   } catch (error) {
