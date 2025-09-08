@@ -104,7 +104,7 @@ async function userLogin(request, response) {
         id: ExistedUser._id.toString(),
       },
       process.env.ACCESS_SECRET_TOKEN,
-      { expiresIn: "50m" }
+      { expiresIn: "15m" }
     );
 
     const refreshToken = JWT.sign(
@@ -155,9 +155,7 @@ async function refreshTokenHandler(request, response) {
       refreshToken ? "Token present" : "No token"
     );
 
-    // 1. Token existence check
     if (!refreshToken) {
-      console.log("No refresh token in cookies");
       return response
         .status(ErrorCodes.Unauthorized)
         .json({ message: "Refresh token required" });
@@ -165,16 +163,12 @@ async function refreshTokenHandler(request, response) {
 
     console.log(refreshTokens);
 
-    // 2. Token validation in Set
     if (!refreshTokens.has(refreshToken)) {
-      console.log(refreshTokens);
-      console.log("Token not found in valid tokens set");
       return response
         .status(ErrorCodes.Forbidden)
         .json({ message: "Refresh token not found in valid tokens" });
     }
 
-    // 3. JWT verification
     let decoded;
     try {
       decoded = JWT.verify(refreshToken, process.env.REFRESH_SECRET_TOKEN);

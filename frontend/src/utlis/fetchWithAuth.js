@@ -10,7 +10,7 @@ export async function fetchWithAuth(url, options = {}) {
       ...options,
       headers: {
         ...options.headers,
-        Authorization: `Bearer ${accessToken}`,
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       },
       credentials: "include",
     });
@@ -31,14 +31,14 @@ export async function fetchWithAuth(url, options = {}) {
           ...options,
           headers: {
             ...options.headers,
-            Authorization: `Bearer ${accessToken}`,
+            ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
           },
           credentials: "include",
         });
       }
     }
 
-    return await res.json();
+    return res;
   } catch (err) {
     console.error("Fetch error:", err);
     return { error: err.message };

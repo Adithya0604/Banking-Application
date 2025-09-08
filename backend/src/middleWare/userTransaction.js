@@ -4,11 +4,8 @@ const { userAccountModel } = require("../model/User");
 
 async function TransferMiddleWare(request, response, next) {
   const { accountNumberFrom, accountNumberTo, amount } = request.body;
-  console.log("in here 1");
 
   try {
-    console.log("in try");
-
     if (!accountNumberFrom || !accountNumberTo || !amount) {
       return response.status(ErrorCodes.Bad_Request).json({
         success: false,
@@ -16,11 +13,13 @@ async function TransferMiddleWare(request, response, next) {
       });
     }
 
-    const fromAccount = await userAccountModel.findOne({ accountNumber: accountNumberFrom });
+    const fromAccount = await userAccountModel.findOne({
+      accountNumber: accountNumberFrom,
+    });
     if (!fromAccount) {
       return response.status(ErrorCodes.Bad_Request).json({
         success: false,
-        Message: `The Account ${accountFrom} Does Not exist...`,
+        Message: `The Account ${accountNumberFrom} Does Not exist...`,
       });
     }
 
@@ -31,13 +30,8 @@ async function TransferMiddleWare(request, response, next) {
       });
     }
 
-    console.log("in here 2");
-
     next();
-    console.log("gone into the controller");
   } catch (error) {
-    console.log("in except", error);
-
     next(error);
   }
 }

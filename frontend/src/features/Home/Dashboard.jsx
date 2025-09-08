@@ -8,11 +8,10 @@ function Dashboard() {
     return navigate("/create-account");
   };
   const handleViewAccounts = () => {
-    console.log('Inside the button')
     return navigate("/view-account");
   };
   const handleMoneyTransfer = () => {
-    console.log("Money Transfer");
+    return navigate("/money-transfer");
   };
   const handleLogOut = () => {
     console.log("Logout");

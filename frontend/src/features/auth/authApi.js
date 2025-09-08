@@ -1,3 +1,5 @@
+import { fetchWithAuth } from "../../utlis/fetchWithAuth";
+
 export async function userRegister(userData) {
   const response = await fetch("http://localhost:8003/api/user/register", {
     method: "POST",
@@ -39,4 +41,22 @@ export async function userAccountCreation(userData) {
 
   const data = await response.json();
   return { status: response.status, ...data };
+}
+
+export async function userMoneyTransfer(userData) {
+  try {
+    const response = await fetchWithAuth(
+      "http://localhost:8003/api/user/Transaction/Transfer/",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      }
+    );
+
+    const data = await response.json();
+    return { status: response.status, ...data };
+  } catch (err) {
+    return { status: "Error", message: err.message };
+  }
 }

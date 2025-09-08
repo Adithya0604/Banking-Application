@@ -20,7 +20,6 @@ function ViewAccountComponent() {
 
         setAccounts(accountsData);
       } catch (err) {
-        console.error("Failed to load accounts:", err);
         setError("Failed to load accounts. Please try again.");
       } finally {
         setLoading(false);
