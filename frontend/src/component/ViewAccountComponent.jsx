@@ -4,19 +4,21 @@ import { fetchWithAuth } from "../utlis/fetchWithAuth";
 function ViewAccountComponent() {
   const [accounts, setAccounts] = useState([]);
   const [showDetails, setShowDetails] = useState({});
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function loadAccounts() {
       try {
         setLoading(true);
-        const data = await fetchWithAuth(
+        const res = await fetchWithAuth(
           "http://localhost:8003/api/user/Accounts/"
         );
+        const data = await res.json();
 
         const accountsData = Array.isArray(data)
-          ? data : data.accounts || [data];
+          ? data
+          : data.accounts || [data];
 
         setAccounts(accountsData);
       } catch (err) {
@@ -35,7 +37,6 @@ function ViewAccountComponent() {
 
   if (loading) return <p>Loading accounts...</p>;
   if (error) return <p>{error}</p>;
-
   if (accounts.length === 0) return <p>No accounts found.</p>;
 
   return (
@@ -79,10 +80,3 @@ function ViewAccountComponent() {
 }
 
 export default ViewAccountComponent;
-
-// state vaibles like account sdetails and which account card is open
-// and using this useeffect hook for getting eh details of the user from account creeateion one . when the user will login then he will get the access tokenand refersh toekn from that tokens help we are getting the details of the user account
-// and save the data
-// when the user will click on that or toggle onthat card account then we know that thisis treu or false ok
-
-// we will get the account of that partuci;lar user by array of objects then we can map that and get allt he detaild from that ans good to go

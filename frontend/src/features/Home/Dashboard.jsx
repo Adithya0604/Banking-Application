@@ -1,24 +1,26 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { setAccessToken } from "../../utlis/fetchWithAuth"; // FIXED import
+
+const tokenFromStorage = localStorage.getItem("accessToken");
+if (tokenFromStorage) {
+  setAccessToken(tokenFromStorage);
+}
 
 function Dashboard() {
   const navigate = useNavigate();
 
-  const handleCreateAccount = () => {
-    return navigate("/create-account");
-  };
-  const handleViewAccounts = () => {
-    return navigate("/view-account");
-  };
-  const handleMoneyTransfer = () => {
-    return navigate("/money-transfer");
-  };
+  const handleCreateAccount = () => navigate("/create-account");
+  const handleViewAccounts = () => navigate("/view-account");
+  const handleMoneyTransfer = () => navigate("/money-transfer");
   const handleLogOut = () => {
-    console.log("Logout");
+    localStorage.removeItem("accessToken"); // clear token on logout
+    setAccessToken(null); // clear in-memory token
+    navigate("/login"); // redirect to login
   };
 
   return (
-    <div>
+    <div style={{ display: "flex", gap: "10px", padding: "20px" }}>
       <button onClick={handleCreateAccount}>Create Account</button>
       <button onClick={handleViewAccounts}>View Accounts</button>
       <button onClick={handleMoneyTransfer}>Transfer Money</button>
