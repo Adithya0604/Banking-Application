@@ -21,14 +21,12 @@ async function userRegisterMiddleWare(request, response, next) {
     function ValidateMissingFields(requiredFields, data) {
       for (let field of requiredFields) {
         if (!(field in data)) {
-          console.log("❌ Missing field:", field);
           return `Field ${field} is Missing`;
         } else if (
           data[field] === null ||
           data[field] === undefined ||
           (typeof data[field] === "string" && data[field].trim() === "")
         ) {
-          console.log("❌ Empty data for:", field);
           return `Data of ${field} is Missing.`;
         }
       }
@@ -50,7 +48,6 @@ async function userRegisterMiddleWare(request, response, next) {
 
     const AllFields = ValidateMissingFields(MissingFields, request.body);
 
-    console.log("👉 Validation result:", AllFields);
 
     if (AllFields) {
       return response.status(ErrorCodes.Bad_Request).json({
@@ -120,9 +117,7 @@ async function userLoginMiddleWare(request, response, next) {
   const { email, password } = request.body;
   let Email = email;
   let Password = password;
-  console.log("preethi sharma");
 
-  console.log(request.body);
 
   try {
     const MissingFields = "Please make sure all required fileds are entered";

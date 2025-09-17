@@ -6,7 +6,10 @@ const { UserAuth } = require("../middleWare/userAccountMiddleWare");
 
 const { TransferMiddleWare } = require("../middleWare/userTransaction");
 
-const { TransactionController } = require("../controller/Transaction");
+const {
+  TransactionController,
+  ViewTransactionController,
+} = require("../controller/Transaction");
 
 // Routes
 
@@ -15,6 +18,11 @@ AccountTranactionRouter.route("/Transaction/Transfer/").post(
   UserAuth,
   TransferMiddleWare,
   TransactionController
+);
+
+AccountTranactionRouter.route("/ViewTransaction/").get(
+  UserAuth,
+  ViewTransactionController
 );
 
 module.exports = { AccountTranactionRouter };

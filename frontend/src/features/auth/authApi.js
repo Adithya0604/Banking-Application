@@ -14,17 +14,20 @@ export async function userRegister(userData) {
 }
 
 // User Login
-export async function userLogin(userData) {
+export async function userLogin(userData) {s
+  console.log("in here");
+
   const response = await fetch("http://localhost:8003/api/user/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userData),
     credentials: "include",
   });
+
   const data = await response.json();
 
   // Save access token if login successful
-  if (response.status === 200 && data.accessToken) {
+  if (response.status === 200 && data.accessToken){ 
     setAccessToken(data.accessToken);
   }
 

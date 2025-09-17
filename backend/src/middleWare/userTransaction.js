@@ -49,4 +49,15 @@ module.exports = { TransferMiddleWare };
                    "narration": "Rent payment"
                 }
 ----------------------------------
+
+----------------------------------
+ * Transfer (View): 
+               {
+                   "transferType": "transfer",
+                   "accountFrom": "0987654...09876",
+                   "accountTo": "12345678...1234",
+                   "amount": 100,
+                   "narration": "Rent payment"
+                }
+----------------------------------
  */

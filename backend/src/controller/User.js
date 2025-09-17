@@ -150,10 +150,6 @@ async function userLogin(request, response) {
 async function refreshTokenHandler(request, response) {
   try {
     const refreshToken = request.cookies.refreshToken;
-    console.log(
-      "Attempting to refresh token:",
-      refreshToken ? "Token present" : "No token"
-    );
 
     if (!refreshToken) {
       return response
@@ -161,7 +157,6 @@ async function refreshTokenHandler(request, response) {
         .json({ message: "Refresh token required" });
     }
 
-    console.log(refreshTokens);
 
     if (!refreshTokens.has(refreshToken)) {
       return response
@@ -172,9 +167,7 @@ async function refreshTokenHandler(request, response) {
     let decoded;
     try {
       decoded = JWT.verify(refreshToken, process.env.REFRESH_SECRET_TOKEN);
-      console.log("Token verified successfully");
     } catch (verifyError) {
-      console.error("Token verification failed:", verifyError.message);
       refreshTokens.delete(refreshToken);
       return response.status(ErrorCodes.Forbidden).json({
         message: "Invalid token signature",
@@ -203,14 +196,12 @@ async function refreshTokenHandler(request, response) {
       process.env.ACCESS_SECRET_TOKEN,
       { expiresIn: "5m" }
     );
-    console.log("New access token generated successfully");
 
     return response.status(200).json({
       success: true,
       accessToken: newAccessToken,
     });
   } catch (err) {
-    console.error("Unexpected error in refresh token handler:", err);
     return response.status(ErrorCodes.Server_Error).json({
       message: "Internal server error during token refresh",
       error: err.message,

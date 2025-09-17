@@ -104,7 +104,7 @@ async function TransactionController(request, response) {
         userId: request.user.id,
         balanceBefore: 0,
         balanceAfter: 0,
-        narration: narration || "",
+        narration: narration ? narration.trim() : "Not Mentioned",
         relatedTranactionId: txnId,
       });
 
@@ -122,6 +122,38 @@ async function TransactionController(request, response) {
     });
   } finally {
     session.endSession();
+  }
+}
+
+async function ViewTransactionController(request, response) {
+  try {
+    const userId = request.user.id;
+
+    const latestTransaction = await userTransactionModel
+      .find({
+        userId: userId,
+      })
+      .sort({ createdAt: 1 });
+
+    if (!latestTransaction || latestTransaction.length === 0) {
+      return response
+        .status(ErrorCodes.Not_Found)
+        .json({ success: false, message: "No transactions found." });
+    }
+
+    const Result = latestTransaction.map((txn, index) => ({
+      Id: index + 1,
+      Sender_Number: txn.accountNumberFrom,
+      Reciver_Number: txn.accountNumberTo,
+      Amount: txn.amount,
+      Transaction_Status: txn.status,
+    }));
+
+    return response.json({ success: true, transaction: Result });
+  } catch (error) {
+    return response
+      .status(ErrorCodes.Server_Error)
+      .json({ success: false, message: "Server error", error });
   }
 }
 
@@ -313,4 +345,4 @@ async function TransactionController(request, response) {
 //   }
 // }
 
-module.exports = { TransactionController };
+module.exports = { TransactionController, ViewTransactionController };

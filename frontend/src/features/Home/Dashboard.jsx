@@ -13,6 +13,7 @@ function Dashboard() {
   const handleCreateAccount = () => navigate("/create-account");
   const handleViewAccounts = () => navigate("/view-account");
   const handleMoneyTransfer = () => navigate("/money-transfer");
+  const handleViewTransfer = () => navigate("/view-transfer");
   const handleLogOut = () => {
     localStorage.removeItem("accessToken"); // clear token on logout
     setAccessToken(null); // clear in-memory token
@@ -24,6 +25,7 @@ function Dashboard() {
       <button onClick={handleCreateAccount}>Create Account</button>
       <button onClick={handleViewAccounts}>View Accounts</button>
       <button onClick={handleMoneyTransfer}>Transfer Money</button>
+      <button onClick={handleViewTransfer}>View Transfer</button>
       <button onClick={handleLogOut}>LogOut</button>
     </div>
   );

@@ -40,3 +40,68 @@
 .read-the-docs {
   color: #888;
 }
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.95em;
+  min-width: 600px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.styled-table caption {
+  font-size: 1.3em;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #222;
+}
+
+.styled-table thead tr {
+  background-color: #333; /* dark grey header */
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+  border: 1px solid #ccc; /* lighter grey border */
+  transition: all 0.3s ease;
+}
+
+.styled-table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f2f2f2; /* light grey for even rows */
+}
+
+.styled-table tbody tr:nth-of-type(odd) {
+  background-color: #ffffff; /* white for odd rows */
+}
+
+.styled-table tbody tr:hover {
+  background-color: #d9d9d9; /* hover highlight in grey */
+  transform: scale(1.02);
+}
+
+.styled-table tbody tr td {
+  transition: color 0.3s ease;
+  color: #000; /* default text color black */
+}
+
+.styled-table tbody tr:hover td {
+  color: #111; /* slightly darker black on hover */
+}
+

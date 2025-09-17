@@ -2,10 +2,11 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Register from "./features/auth/Register";
 import Login from "./features/auth/Login";
-import Dashboard from "./features/Home/dashboard";
+import Dashboard from "./features/Home/Dashboard";
 import DashboardComponent from "./component/DashboardComponent";
 import ViewAccountComponent from "./component/ViewAccountComponent";
 import MoneyTransferComponent from "./component/MoneyTransferComponent";
+import ViewTransferComponent from "./component/ViewTransferComponent";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/create-account" element={<DashboardComponent />} />
         <Route path="/view-account" element={<ViewAccountComponent />} />
         <Route path="/money-transfer" element={<MoneyTransferComponent />} />
+        <Route path="/view-transfer" element={<ViewTransferComponent />} />
       </Routes>
     </>
   );
